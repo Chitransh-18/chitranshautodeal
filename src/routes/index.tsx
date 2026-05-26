@@ -1,26 +1,53 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { Preloader } from "@/components/Preloader";
+import { Navbar } from "@/components/Navbar";
+import { Hero } from "@/components/Hero";
+import { Inventory } from "@/components/Inventory";
+import { About } from "@/components/About";
+import { Contact } from "@/components/Contact";
+import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Chitransh Auto Deal — Trusted Pre-Owned Cars" },
+      {
+        name: "description",
+        content:
+          "Premium used car dealership in Madhya Pradesh. Hand-picked, inspected pre-owned cars at the right price. Visit Chitransh Auto Deal.",
+      },
+      { property: "og:title", content: "Chitransh Auto Deal — Trusted Pre-Owned Cars" },
+      {
+        property: "og:description",
+        content:
+          "Find trusted pre-owned cars at the right price at Chitransh Auto Deal.",
+      },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <>
+      {loading && <Preloader onDone={() => setLoading(false)} />}
+      <div
+        className={`transition-opacity duration-700 ${
+          loading ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        <Navbar />
+        <main>
+          <Hero />
+          <Inventory />
+          <About />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </>
+  );
 }
