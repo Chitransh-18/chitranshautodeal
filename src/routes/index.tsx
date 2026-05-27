@@ -15,7 +15,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Premium used car dealership in Madhya Pradesh. Hand-picked, inspected pre-owned cars at the right price. Visit Chitransh Auto Deal.",
+          "Premium used car dealership in Kota, Rajasthan. Hand-picked, inspected pre-owned cars at the right price. Visit Chitransh Auto Deal.",
       },
       { property: "og:title", content: "Chitransh Auto Deal — Trusted Pre-Owned Cars" },
       {

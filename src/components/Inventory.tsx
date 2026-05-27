@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { CARS, type Car } from "@/lib/cars";
+import { fetchCars } from "@/lib/car-service";
 import { CarCard } from "./CarCard";
 import { CarDetailModal } from "./CarDetailModal";
 
@@ -19,20 +20,30 @@ export function Inventory() {
   const [fuel, setFuel] = useState<(typeof FUELS)[number]>("All");
   const [avail, setAvail] = useState<(typeof AVAILS)[number]>("All");
   const [priceIdx, setPriceIdx] = useState(0);
-  const [selected, setSelected] = useState<Car | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const {
+    data: cars = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["cars"],
+    queryFn: fetchCars,
+    retry: false,
+  });
 
   const filtered = useMemo(() => {
     const p = PRICES[priceIdx];
-    return CARS.filter((c) => {
+    return cars.filter((c) => {
       if (q && !`${c.name} ${c.brand} ${c.model}`.toLowerCase().includes(q.toLowerCase()))
         return false;
       if (fuel !== "All" && c.fuel !== fuel) return false;
       if (avail === "Available" && !c.available) return false;
       if (avail === "Sold" && c.available) return false;
+      if (priceIdx !== 0 && c.price <= 0) return false;
       if (c.price < p.min || c.price > p.max) return false;
       return true;
     });
-  }, [q, fuel, avail, priceIdx]);
+  }, [q, fuel, avail, priceIdx, cars]);
 
   return (
     <section id="inventory" className="relative py-24 sm:py-32">
@@ -44,20 +55,20 @@ export function Inventory() {
               Curated <span className="text-gradient-red">pre-owned</span> cars
             </h2>
             <p className="mt-3 max-w-xl text-muted-foreground">
-              Every car in our collection passes a rigorous 200-point inspection. Browse,
-              compare, and book a test drive in minutes.
+              Every car in our collection passes a rigorous 200-point inspection. Browse, compare,
+              and book a test drive in minutes.
             </p>
           </div>
           <div className="text-sm text-muted-foreground">
-            <span className="font-bold text-foreground">{filtered.length}</span> /{" "}
-            {CARS.length} cars
+            <span className="font-bold text-foreground">{filtered.length}</span> / {cars.length}{" "}
+            cars
           </div>
         </div>
 
         {/* Filters */}
-        <div className="mt-10 rounded-2xl border border-border bg-surface/60 p-4 sm:p-5">
+        <div className="premium-ring mt-10 rounded-3xl border border-border bg-surface-elevated/80 p-4 shadow-card sm:p-5">
           <div className="grid gap-3 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
-            <label className="flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5">
+            <label className="flex items-center gap-2 rounded-2xl border border-border bg-background px-4 py-3 transition-colors focus-within:border-foreground">
               <Search size={18} className="text-muted-foreground" />
               <input
                 value={q}
@@ -89,14 +100,28 @@ export function Inventory() {
         </div>
 
         {/* Grid */}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((c) => (
-            <CarCard key={c.id} car={c} onSelect={setSelected} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="mt-16 rounded-3xl border border-border bg-surface/50 p-12 text-center">
+            <div className="text-lg font-semibold">Loading inventory</div>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Fetching latest cars from Supabase.
+            </p>
+          </div>
+        ) : error ? (
+          <div className="mt-16 rounded-3xl border border-dashed border-border bg-surface/50 p-12 text-center">
+            <div className="text-lg font-semibold">Inventory is not connected yet</div>
+            <p className="mt-2 text-sm text-muted-foreground">{(error as Error).message}</p>
+          </div>
+        ) : (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((c) => (
+              <CarCard key={c.id} car={c} onSelect={(car) => setSelectedId(car.id)} />
+            ))}
+          </div>
+        )}
 
-        {filtered.length === 0 && (
-          <div className="mt-16 rounded-2xl border border-dashed border-border p-12 text-center">
+        {!isLoading && !error && filtered.length === 0 && (
+          <div className="mt-16 rounded-3xl border border-dashed border-border bg-surface/50 p-12 text-center">
             <div className="text-lg font-semibold">No cars match your filters</div>
             <p className="mt-2 text-sm text-muted-foreground">
               Try adjusting the search or clearing some filters.
@@ -105,7 +130,7 @@ export function Inventory() {
         )}
       </div>
 
-      <CarDetailModal car={selected} onClose={() => setSelected(null)} />
+      <CarDetailModal carId={selectedId} onClose={() => setSelectedId(null)} />
     </section>
   );
 }
@@ -124,15 +149,17 @@ function FilterSelect({
   icon?: React.ReactNode;
 }) {
   return (
-    <label className="flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5">
-      {icon ?? <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>}
+    <label className="flex items-center gap-2 rounded-2xl border border-border bg-background px-4 py-3 transition-colors focus-within:border-foreground">
+      {icon ?? (
+        <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
+      )}
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="w-full bg-transparent text-sm outline-none"
       >
         {options.map((o) => (
-          <option key={o} value={o} className="bg-background">
+          <option key={o} value={o} className="bg-background text-foreground">
             {o}
           </option>
         ))}

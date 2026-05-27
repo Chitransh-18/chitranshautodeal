@@ -4,10 +4,7 @@ import heroCar from "@/assets/hero-car.jpg";
 
 export function Hero() {
   return (
-    <section
-      id="home"
-      className="relative min-h-[100svh] overflow-hidden bg-gradient-hero pt-24"
-    >
+    <section id="home" className="relative min-h-[100svh] overflow-hidden bg-gradient-hero pt-24">
       {/* Background image */}
       <div className="absolute inset-0">
         <img
@@ -15,10 +12,10 @@ export function Hero() {
           alt="Premium pre-owned car"
           width={1920}
           height={1080}
-          className="h-full w-full object-cover opacity-50"
+          className="h-full w-full object-cover opacity-35 grayscale-[35%] dark:opacity-45"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/45" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/55 to-transparent" />
       </div>
 
       <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-20 pt-12 sm:px-8 lg:grid-cols-12 lg:gap-8 lg:pt-20">
@@ -27,10 +24,10 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-muted-foreground"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-elevated/75 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-muted-foreground shadow-card backdrop-blur"
           >
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
-            Bhopal · Indore · Madhya Pradesh
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+            Kota · Rajasthan
           </motion.div>
 
           <motion.h1
@@ -49,8 +46,8 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.35 }}
             className="mt-6 max-w-xl text-lg text-muted-foreground"
           >
-            Find trusted pre-owned cars at the right price. Every vehicle at
-            Chitransh Auto Deal is hand-picked, inspected, and ready for the road.
+            Find trusted pre-owned cars at the right price. Every vehicle at Chitransh Auto Deal is
+            hand-picked, inspected, and ready for the road.
           </motion.p>
 
           <motion.div
@@ -68,7 +65,7 @@ export function Hero() {
             </a>
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-7 py-3.5 text-sm font-semibold text-foreground transition-colors hover:bg-surface"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-elevated/80 px-7 py-3.5 text-sm font-semibold text-foreground shadow-card transition-colors hover:bg-surface"
             >
               <Phone size={16} />
               Contact Us
@@ -105,7 +102,11 @@ export function Hero() {
             className="relative h-full"
           >
             {[
-              { icon: ShieldCheck, title: "200-Point Inspection", desc: "Every car checked top-to-bottom" },
+              {
+                icon: ShieldCheck,
+                title: "200-Point Inspection",
+                desc: "Every car checked top-to-bottom",
+              },
               { icon: Star, title: "Premium Selection", desc: "Hand-picked, low-km vehicles only" },
               { icon: Car, title: "Easy Test Drive", desc: "At your home or our showroom" },
             ].map((f, i) => (
@@ -114,10 +115,10 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.8 + i * 0.15 }}
-                className="mb-4 flex items-start gap-4 rounded-2xl border border-border glass p-5 shadow-card"
+                className="glass premium-ring mb-4 flex items-start gap-4 rounded-2xl border border-border p-5 shadow-card"
                 style={{ marginLeft: `${i * 24}px` }}
               >
-                <div className="rounded-xl bg-gradient-red p-2.5 text-primary-foreground">
+                <div className="rounded-xl bg-gradient-red p-2.5 text-primary-foreground shadow-glow">
                   <f.icon size={20} />
                 </div>
                 <div>

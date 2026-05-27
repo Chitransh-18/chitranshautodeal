@@ -1,13 +1,13 @@
 import { MessageCircle, Instagram, MapPin, Phone, Mail, Clock } from "lucide-react";
 
-const WHATSAPP = "919999999999";
-const INSTAGRAM = "https://instagram.com/chitranshautodeal";
-const MAPS = "https://maps.google.com/?q=Chitransh+Auto+Deal+Bhopal";
+const WHATSAPP = "919828455400";
+const INSTAGRAM = "https://www.instagram.com/chitransh_auto_deal/";
+const MAPS = "https://maps.google.com/?q=Chitransh+Auto+Deal+Kota+Rajasthan";
 
 export function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden py-24 sm:py-32">
-      <div className="absolute inset-0 bg-gradient-hero opacity-60" />
+      <div className="absolute inset-0 bg-gradient-hero opacity-80" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
@@ -16,17 +16,17 @@ export function Contact() {
               Let's get you <span className="text-gradient-red">behind the wheel</span>
             </h2>
             <p className="mt-4 max-w-lg text-muted-foreground">
-              Drop by our showroom, send us a WhatsApp, or follow our Instagram for fresh
-              arrivals. We're here every day from 10 AM to 8 PM.
+              Drop by our showroom, send us a WhatsApp, or follow our Instagram for fresh arrivals.
+              We're here every day from 10 AM to 8 PM.
             </p>
 
             <div className="mt-8 space-y-4">
-              <Info icon={Phone} label="Phone" value="+91 99999 99999" />
-              <Info icon={Mail} label="Email" value="hello@chitranshautodeal.com" />
+              <Info icon={Phone} label="Phone" value="+91 98284 55400" />
+              <Info icon={Mail} label="Email" value="Chitranshsaxena85@gmail.com" />
               <Info
                 icon={MapPin}
                 label="Showroom"
-                value="Plot 12, MP Nagar Zone-1, Bhopal, MP 462011"
+                value="Kota, Rajasthan"
               />
               <Info icon={Clock} label="Hours" value="Mon – Sun · 10:00 AM – 8:00 PM" />
             </div>
@@ -59,10 +59,10 @@ export function Contact() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-3xl border border-border bg-surface shadow-card">
+          <div className="premium-ring overflow-hidden rounded-3xl border border-border bg-surface shadow-card">
             <iframe
               title="Map"
-              src="https://www.google.com/maps?q=Bhopal+MP+Nagar&output=embed"
+              src="https://www.google.com/maps?q=Kota+Rajasthan&output=embed"
               className="h-full min-h-[420px] w-full"
               loading="lazy"
             />
@@ -84,7 +84,7 @@ function Info({
 }) {
   return (
     <div className="flex items-start gap-4">
-      <div className="rounded-xl bg-gradient-red p-2.5 text-primary-foreground">
+      <div className="rounded-2xl bg-gradient-red p-2.5 text-primary-foreground shadow-glow">
         <Icon size={18} />
       </div>
       <div>
